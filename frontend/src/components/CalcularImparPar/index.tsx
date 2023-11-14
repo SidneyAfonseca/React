@@ -1,28 +1,27 @@
-// import React from 'react';
+import React, { useState } from 'react';
 
-// // import { Container } from './styles';
-// export default function CalcularImparPar() {
-//     const [n1, SetN1] = useState(0);
-//     const [result, SetResult] = useState(0);
-// /*var n = prompt("Digite um numero");
-// */
-// function Soma() {
-//     result=SetN1/2;
-// if(SetN1/2=0){
-//     alert("Par");
-// }
-// if(SetN1/2=1){
-//     alert("Impar");
-// }
-//   }
-//       return (
-//         <div>
-//           <input
-//             placeholder="Digite um numero"
-//             onChange={(e) => SetN1(parseInt(e.target.value))}
-//           />
-//           </div>
-//       );
+const CaulcarParImpar: React.FC = () => {
+  const [numero, setNumero] = useState(0);
 
-// alert(Soma);
-// }
+  function CalculaParImpar() {
+    alert(numero % 2 == 0 ? "PAR" : "IMPAR");
+    return;
+  }
+  return (
+
+    <fieldset>
+      <legend>Verificar se numero é par ou impar</legend>
+      <div>
+        <label>Numero:</label>
+        <input
+          type='number'
+          placeholder='Informe um numero'
+          onChange={(e) => setNumero(parseInt(e.target.value))}
+        ></input>
+      </div>
+
+      <button onClick={CalculaParImpar}>Verificar se numero é par ou impar</button>
+    </fieldset>
+  );
+}
+export default CaulcarParImpar;
