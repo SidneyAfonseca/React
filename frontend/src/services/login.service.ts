@@ -1,35 +1,35 @@
 import { instance } from "../utils/http";
 
 export interface User {
-    email?: string;
-    isAdmin?: boolean;
+  email?: string;
+  isAdmin?: boolean;
 }
 
 export async function DoLoginUser(email: string, senha: string): Promise<User> {
-    const result = await instance.http.put("/auth", { email, senha });
+  const result = await instance.http.put("/auth", { email, senha });
 
-    if (result.status !== 200) throw Error();
+  if (result.status !== 200) throw Error();
 
-    const user: User = {
-        email: email,
-        isAdmin: result.data.isAdmin,
-    };
+  const user: User = {
+    email: email,
+    isAdmin: result.data.isAdmin,
+  };
 
-    return user;
+  return user;
 }
 
 export async function CreateUser(
-    nome: string,
-    email: string,
-    senha: string,
-    tipoUsuarioId: string
+  nome: string,
+  email: string,
+  senha: string,
+  tipoUsuarioId: string
 ) {
-    const result = await instance.http.post("/usuario", {
-        nome,
-        email,
-        senha,
-        tipoUsuarioId,
-    });
+  const result = await instance.http.post("/usuario", {
+    nome,
+    email,
+    senha,
+    tipoUsuarioId,
+  });
 
-    if (result.status !== 201) throw Error();
+  if (result.status !== 201) throw Error();
 }

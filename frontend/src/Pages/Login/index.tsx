@@ -3,11 +3,14 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import "bootstrap/dist/css/bootstrap.min.css";
-// import { Image } from "react-bootstrap";
-// import Logo from "../../assets/logo.png";
 import { useState } from "react";
-import { CreateUser, DoLoginUser } from "../../services/login.service";
+import { CreateUser, DoLoginUser, User } from "../../services/login.service";
+import { ToastContainer, toast } from "react-toastify";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
+import Logo from "../../assets/logo.png";
+import { Image } from "react-bootstrap";
 
 export default function Login() {
   const [email, SetEmail] = useState("");
@@ -15,6 +18,7 @@ export default function Login() {
   const [nome, SetNome] = useState("");
   const [isLogin, SetIsLogin] = useState(true);
   const [typeUser, SetTypeUser] = useState("");
+  const navigate = useNavigate();
 
   function LoginButton() {
     return (
@@ -32,25 +36,49 @@ export default function Login() {
     );
   }
 
+  function ToastError(msg: string) {
+    toast.error(msg, {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: false,
+      progress: undefined,
+      theme: "dark",
+    });
+  }
+
   async function DoLogin() {
-    const res = await DoLoginUser(email, password);
-    console.log(res);
+    try {
+      const res: User = await DoLoginUser(email, password);
+      localStorage.setItem("user", JSON.stringify(res));
+      navigate("/produtos");
+    } catch (error) {
+      ToastError("Verifique suas credências e tente novamente");
+    }
   }
 
   async function DoCreateUser() {
-    await CreateUser(nome, email, password, typeUser);
-    SetIsLogin(true);
+    try {
+      await CreateUser(nome, email, password, typeUser);
+      SetIsLogin(true);
+    } catch (error) {
+      ToastError("Verifique suas credências e tente novamente");
+    }
   }
 
   return (
     <Container fluid className="d-flex min-vh-100">
+      <ToastContainer />
+
       <Row className="min-vw-100">
         <Col
           xs={12}
           md={4}
           className="bg-light d-flex flex-column align-items-center justify-content-center"
         >
-          {/* <Image src={Logo} width={100} /> */}
+          <Image src={Logo} width={100} />
           <h2>Bem vindo à WA Loja!</h2>
         </Col>
         <Col
