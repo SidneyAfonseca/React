@@ -3,8 +3,8 @@ import { Card, Col } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { IProduto } from "../../services/produto.service";
 import CartItem from "./Components/CartItem";
-import { FetchProductsCarrinho } from "../../services/carrinho.service";
 import Checkout from "./Components/Checkout";
+import { FetchProductsCarrinho } from "../../services/carrinho.service";
 
 export default function Cart() {
   const [products, SetProducts] = useState<IProduto[]>();
