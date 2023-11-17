@@ -3,9 +3,11 @@ import Logo from "../../assets/logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons/faRightFromBracket";
 import { useEffect, useState } from "react";
-import { User } from "../../services/login.service";
+import { Logout, User } from "../../services/login.service";
+import { useNavigate } from "react-router-dom";
 export default function CustomNavBar() {
   const [user, SetUser] = useState<User>();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const userLocalStorage = localStorage.getItem("user");
@@ -15,6 +17,12 @@ export default function CustomNavBar() {
     }
   }, []);
 
+  async function LogoutUser() {
+    localStorage.clear();
+    await Logout();
+    navigate("/login");
+  }
+
   return (
     <Navbar>
       <Container>
@@ -23,13 +31,22 @@ export default function CustomNavBar() {
         </Navbar.Brand>
         <Navbar.Collapse>
           <Nav>
-            <Nav.Link href="/produtos">Produtos</Nav.Link>
+            <Nav.Link href="/">Produtos</Nav.Link>
           </Nav>
-          <Nav.Link href="/">
-            <FontAwesomeIcon icon={faRightFromBracket} />
-          </Nav.Link>
 
-          <Nav style={{ margin: "0 auto" }}>User: {user?.email}</Nav>
+          {user === undefined ? null : (
+            <>
+              <Nav.Link onClick={() => LogoutUser()}>
+                <FontAwesomeIcon icon={faRightFromBracket} />
+              </Nav.Link>
+              <Nav style={{ margin: "0 auto" }}>User: {user?.email}</Nav>
+              {!user.isAdmin ? (
+                <Nav>
+                  <Nav.Link href="/carrinho">Carrinho</Nav.Link>
+                </Nav>
+              ) : null}
+            </>
+          )}
         </Navbar.Collapse>
       </Container>
     </Navbar>

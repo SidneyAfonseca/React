@@ -3,19 +3,24 @@ import "./App.css";
 import Login from "./Pages/Login";
 import ListaProdutos from "./Pages/ListaProdutos";
 import NavBarLayout from "./Layout/NavbarLayout";
+import Cart from "./Pages/Carrinho";
 
 const router = createBrowserRouter([
   {
     element: <NavBarLayout />,
     children: [
       {
-        path: "/produtos",
+        path: "/",
         element: <ListaProdutos />,
+      },
+      {
+        path: "/carrinho",
+        element: <Cart />,
       },
     ],
   },
   {
-    path: "/",
+    path: "/login",
     element: <Login />,
   },
 ]);
